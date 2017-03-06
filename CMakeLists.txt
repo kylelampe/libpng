@@ -142,7 +142,7 @@ endif()
 
 
 # SET LIBNAME
-set(PNG_LIB_NAME png${PNGLIB_MAJOR}${PNGLIB_MINOR})
+set(PNG_LIB_NAME png)
 
 # to distinguish between debug and release lib
 set(CMAKE_DEBUG_POSTFIX "d")
@@ -474,11 +474,6 @@ if(PNG_SHARED)
   set(PNG_LIB_TARGETS png)
   set_target_properties(png PROPERTIES OUTPUT_NAME ${PNG_LIB_NAME})
   add_dependencies(png genfiles)
-  if(MSVC)
-    # msvc does not append 'lib' - do it here to have consistent name
-    set_target_properties(png PROPERTIES PREFIX "lib")
-    set_target_properties(png PROPERTIES IMPORT_PREFIX "lib")
-  endif()
   target_link_libraries(png ${ZLIB_LIBRARY} ${M_LIBRARY})
 
   if(UNIX AND AWK)
@@ -862,7 +857,7 @@ endif()
 # On versions of CMake that support it, create an export file CMake
 # users can include() to import our targets
 if(PNG_EXPORT_RULE AND NOT SKIP_INSTALL_EXPORT AND NOT SKIP_INSTALL_ALL )
-  install(EXPORT libpng DESTINATION lib/libpng FILE lib${PNG_LIB_NAME}.cmake)
+  install(EXPORT libpng DESTINATION cmake FILE png-config.cmake)
 endif()
 
 # what's with libpng-manual.txt and all the extra files?
